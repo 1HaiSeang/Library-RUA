@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ប្រព័ន្ធកក់បន្ទប់ – បណ្ណាល័យ</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap');
+  :root {
+    --navy:#1F4E79;--blue:#2E75B6;--sky:#D6E4F0;--green:#1E6B3C;
+    --green-bg:#D4EDDA;--amber:#7D5A00;--amber-bg:#FFF3CD;
+    --red:#C00000;--red-bg:#FFCCCC;--white:#FFFFFF;--bg:#F4F7FB;
+    --border:#B8CCE4;--text:#1a2a3a;--muted:#6b7c93;
+    --radius:10px;--shadow:0 2px 16px rgba(31,78,121,0.10);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Kantumruy Pro',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+  header{background:linear-gradient(135deg,var(--navy) 0%,var(--blue) 100%);color:white;padding:1.5rem 2rem;display:flex;align-items:center;gap:1rem;box-shadow:0 2px 12px rgba(31,78,121,0.25);}
+  header .logo{width:48px;height:48px;background:rgba(255,255,255,0.15);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;}
+  header h1{font-size:20px;font-weight:700;}
+  header p{font-size:13px;opacity:0.8;margin-top:2px;}
+  main{max-width:1100px;margin:0 auto;padding:2rem 1.5rem;display:grid;grid-template-columns:380px 1fr;gap:1.5rem;align-items:start;}
+  @media(max-width:800px){main{grid-template-columns:1fr;}}
+  .card{background:white;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;}
+  .card-header{background:var(--navy);color:white;padding:14px 18px;font-size:15px;font-weight:600;display:flex;align-items:center;gap:8px;}
+  .card-body{padding:18px;}
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:13px;font-weight:500;color:var(--muted);margin-bottom:5px;}
+  .field label span.req{color:var(--red);margin-left:2px;}
+  .field select,.field input{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Kantumruy Pro',sans-serif;background:white;color:var(--text);transition:border-color .2s;outline:none;}
+  .field select:focus,.field input:focus{border-color:var(--blue);}
+  .btn{width:100%;padding:11px;border:none;border-radius:8px;font-size:15px;font-weight:600;font-family:'Kantumruy Pro',sans-serif;cursor:pointer;transition:opacity .2s,transform .1s;}
+  .btn:active{transform:scale(.98);}
+  .btn-primary{background:var(--blue);color:white;}
+  .btn-primary:hover{opacity:.88;}
+  .btn-primary:disabled{opacity:.5;cursor:not-allowed;}
+  .alert{padding:11px 14px;border-radius:8px;font-size:13px;margin-top:12px;display:none;line-height:1.6;}
+  .alert.show{display:block;}
+  .alert-error{background:var(--red-bg);color:var(--red);border:1px solid #f5c6cb;}
+  .alert-success{background:var(--green-bg);color:var(--green);border:1px solid #c3e6cb;}
+  .alert-warning{background:var(--amber-bg);color:var(--amber);border:1px solid #ffeeba;}
+  .table-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:var(--navy);color:white;}
+  .table-header h2{font-size:15px;font-weight:600;}
+  .badge-count{background:rgba(255,255,255,0.2);border-radius:20px;padding:2px 10px;font-size:12px;font-weight:600;}
+  .filter-bar{padding:12px 18px;background:var(--sky);display:flex;gap:8px;flex-wrap:wrap;}
+  .filter-bar select,.filter-bar input{padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;font-family:'Kantumruy Pro',sans-serif;background:white;color:var(--text);}
+  .btn-refresh{padding:6px 14px;background:var(--blue);color:white;border:none;border-radius:6px;font-size:13px;font-family:'Kantumruy Pro',sans-serif;cursor:pointer;margin-left:auto;}
+  .btn-refresh:hover{opacity:.85;}
+  .table-wrap{overflow-x:auto;}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th{background:#EBF3FB;color:var(--navy);font-weight:600;padding:9px 12px;text-align:left;border-bottom:1.5px solid var(--border);white-space:nowrap;}
+  td{padding:9px 12px;border-bottom:1px solid #EEF4F9;color:var(--text);vertical-align:middle;}
+  tr:last-child td{border-bottom:none;}
+  tr:hover td{background:#F7FAFD;}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap;}
+  .badge-booked{background:var(--green-bg);color:var(--green);}
+  .badge-free{background:var(--amber-bg);color:var(--amber);}
+  .room-chip{display:inline-block;background:var(--sky);color:var(--navy);border-radius:6px;padding:2px 8px;font-weight:600;font-size:12px;}
+  .empty-state{text-align:center;padding:2.5rem 1rem;color:var(--muted);font-size:14px;}
+  .empty-state .icon{font-size:36px;margin-bottom:8px;}
+  .loader{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.4);border-top-color:white;border-radius:50%;animation:spin .6s linear infinite;vertical-align:-3px;margin-right:6px;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🏛️</div>
+  <div>
+    <h1>ប្រព័ន្ធកក់បន្ទប់ពិភាក្សា</h1>
+    <p>បណ្ណាល័យ — ម៉ោង 08:00–17:00 (សម្រាក 12:00–13:00)</p>
+  </div>
+</header>
+
+<main>
+  <!-- Booking Form -->
+  <div class="card">
+    <div class="card-header">📋 កក់បន្ទប់ថ្មី</div>
+    <div class="card-body">
+      <div class="field">
+        <label>ថ្ងៃខែឆ្នាំ <span class="req">*</span></label>
+        <input type="date" id="f-date">
+      </div>
+      <div class="field">
+        <label>ថ្ងៃ <span class="req">*</span></label>
+        <select id="f-day">
+          <option value="">— ជ្រើសថ្ងៃ —</option>
+          <option>ចន្ទ</option><option>អង្គារ</option><option>ពុធ</option>
+          <option>ព្រហស្បតិ៍</option><option>សុក្រ</option><option>សៅរ៍</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>ម៉ោង <span class="req">*</span></label>
+        <select id="f-time">
+          <option value="">— ជ្រើសម៉ោង —</option>
+          <option>08:00–10:00</option><option>10:00–12:00</option>
+          <option>13:00–15:00</option><option>15:00–17:00</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>បន្ទប់ <span class="req">*</span></label>
+        <select id="f-room">
+          <option value="">— ជ្រើសបន្ទប់ —</option>
+          <option>R-01 (6 នាក់)</option>
+          <option>R-02 (8 នាក់)</option>
+          <option>R-03 (10 នាក់)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Topic / ប្រធានបទ</label>
+        <input type="text" id="f-topic" placeholder="ឧ. គណិតវិទ្យា, Programming...">
+      </div>
+      <div class="field">
+        <label>ឈ្មោះក្រុម <span class="req">*</span></label>
+        <input type="text" id="f-group" placeholder="ឧ. ក្រុម A">
+      </div>
+      <div class="field">
+        <label>សមាជិក</label>
+        <input type="text" id="f-members" placeholder="ឧ. សុខ, ដារា, នីតា">
+      </div>
+      <button class="btn btn-primary" id="btn-submit" onclick="submitBooking()">✅ កក់បន្ទប់</button>
+      <div class="alert alert-error"   id="alert-err"></div>
+      <div class="alert alert-success" id="alert-ok"></div>
+      <div class="alert alert-warning" id="alert-warn"></div>
+    </div>
+  </div>
+
+  <!-- Booking Table -->
+  <div class="card">
+    <div class="table-header">
+      <h2>📅 តារាងការកក់ទាំងអស់</h2>
+      <span class="badge-count" id="count-badge">0 ការកក់</span>
+    </div>
+    <div class="filter-bar">
+      <select id="filter-day" onchange="applyFilter()">
+        <option value="">ថ្ងៃទាំងអស់</option>
+        <option>ចន្ទ</option><option>អង្គារ</option><option>ពុធ</option>
+        <option>ព្រហស្បតិ៍</option><option>សុក្រ</option><option>សៅរ៍</option>
+      </select>
+      <select id="filter-room" onchange="applyFilter()">
+        <option value="">បន្ទប់ទាំងអស់</option>
+        <option>R-01 (6 នាក់)</option>
+        <option>R-02 (8 នាក់)</option>
+        <option>R-03 (10 នាក់)</option>
+      </select>
+      <select id="filter-status" onchange="applyFilter()">
+        <option value="">ស្ថានភាពទាំងអស់</option>
+        <option>កក់ហើយ</option><option>ទំនេរ</option>
+      </select>
+      <button class="btn-refresh" onclick="loadBookings()">🔄 Refresh</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ថ្ងៃខែ</th><th>ថ្ងៃ</th><th>ម៉ោង</th>
+            <th>Topic</th><th>ក្រុម</th><th>បន្ទប់</th><th>ស្ថានភាព</th>
+          </tr>
+        </thead>
+        <tbody id="tbl-body">
+          <tr><td colspan="7"><div class="empty-state"><div class="icon">⏳</div><div>កំពុង load...</div></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<script>
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw-sYFcFF71pzct4L0NM-OO1GcwpCuZsK1kBYW_d4NdpLDa-O2G2R5bZFEmp0OmM9Me0w/exec';
+
+window.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('f-date').addEventListener('change', function() {
+    var days = ['អាទិត្យ','ចន្ទ','អង្គារ','ពុធ','ព្រហស្បតិ៍','សុក្រ','សៅរ៍'];
+    var d = new Date(this.value);
+    var dayName = days[d.getDay()];
+    var sel = document.getElementById('f-day');
+    for (var i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].text === dayName) { sel.value = dayName; break; }
+    }
+  });
+  loadBookings();
+});
+
+function showAlert(type, msg) {
+  ['err','ok','warn'].forEach(function(t) {
+    var el = document.getElementById('alert-'+t);
+    el.classList.remove('show'); el.innerHTML = '';
+  });
+  var el = document.getElementById('alert-'+type);
+  el.innerHTML = msg; el.classList.add('show');
+  setTimeout(function(){ el.classList.remove('show'); }, 6000);
+}
+
+function submitBooking() {
+  var dateVal    = document.getElementById('f-date').value;
+  var dayVal     = document.getElementById('f-day').value;
+  var timeVal    = document.getElementById('f-time').value;
+  var roomVal    = document.getElementById('f-room').value;
+  var topicVal   = document.getElementById('f-topic').value.trim();
+  var groupVal   = document.getElementById('f-group').value.trim();
+  var membersVal = document.getElementById('f-members').value.trim();
+
+  if (!dateVal || !dayVal || !timeVal || !roomVal || !groupVal) {
+    showAlert('err','⚠️ សូមបំពេញព័ត៌មានចាំបាច់: ថ្ងៃខែ, ថ្ងៃ, ម៉ោង, បន្ទប់, ឈ្មោះក្រុម');
+    return;
+  }
+
+  var d = new Date(dateVal);
+  var formatted = ('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'/'+d.getFullYear();
+
+  var btn = document.getElementById('btn-submit');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loader"></span>កំពុងកក់...';
+
+  var payload = {
+    date: formatted, day: dayVal, time: timeVal,
+    topic: topicVal||'—', group: groupVal,
+    members: membersVal||'—', room: roomVal
+  };
+
+  fetch(SCRIPT_URL, {
+    method: 'POST', mode: 'no-cors',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(payload)
+  })
+  .then(function() {
+    showAlert('ok','✅ <strong>កក់បានជោគជ័យ!</strong> បន្ទប់ '+roomVal+' ថ្ងៃ'+dayVal+' ម៉ោង'+timeVal+' ('+formatted+')');
+    clearForm();
+    setTimeout(loadBookings, 1500);
+  })
+  .catch(function(err) {
+    showAlert('err','❌ Error: '+err.message);
+  })
+  .finally(function() {
+    btn.disabled = false;
+    btn.innerHTML = '✅ កក់បន្ទប់';
+  });
+}
+
+function clearForm() {
+  ['f-date','f-day','f-time','f-room','f-topic','f-group','f-members'].forEach(function(id){
+    document.getElementById(id).value = '';
+  });
+}
+
+var allBookings = [];
+
+function loadBookings() {
+  var btn = document.querySelector('.btn-refresh');
+  btn.textContent = '⏳'; btn.disabled = true;
+
+  fetch(SCRIPT_URL + '?action=get')
+  .then(function(r){ return r.json(); })
+  .then(function(data){
+    allBookings = Array.isArray(data) ? data : [];
+    applyFilter();
+  })
+  .catch(function(){
+    document.getElementById('tbl-body').innerHTML =
+      '<tr><td colspan="7"><div class="empty-state"><div class="icon">🔒</div>' +
+      '<div>CORS blocked — ពិនិត្យ Apps Script "Who has access" = <strong>Anyone</strong></div></div></td></tr>';
+  })
+  .finally(function(){
+    btn.textContent = '🔄 Refresh'; btn.disabled = false;
+  });
+}
+
+function applyFilter() {
+  var fd = document.getElementById('filter-day').value;
+  var fr = document.getElementById('filter-room').value;
+  var fs = document.getElementById('filter-status').value;
+  var filtered = allBookings.filter(function(b){
+    return (!fd||b.day===fd)&&(!fr||b.room===fr)&&(!fs||b.status===fs);
+  });
+  renderTable(filtered);
+  document.getElementById('count-badge').textContent = filtered.length+' ការកក់';
+}
+
+function renderTable(rows) {
+  var tb = document.getElementById('tbl-body');
+  if (!rows||rows.length===0) {
+    tb.innerHTML='<tr><td colspan="7"><div class="empty-state"><div class="icon">📭</div><div>មិនទាន់មានការកក់</div></div></td></tr>';
+    return;
+  }
+  tb.innerHTML = rows.map(function(b){
+    var badge = b.status==='កក់ហើយ'
+      ? '<span class="badge badge-booked">✅ កក់ហើយ</span>'
+      : '<span class="badge badge-free">🟡 ទំនេរ</span>';
+    var dateStr = b.date ? (b.date.toString().includes('T') ? new Date(b.date).toLocaleDateString('km-KH') : b.date) : '—';
+    return '<tr>'
+      +'<td>'+dateStr+'</td>'
+      +'<td><strong>'+(b.day||'—')+'</strong></td>'
+      +'<td>'+(b.time||'—')+'</td>'
+      +'<td>'+(b.topic||'—')+'</td>'
+      +'<td>'+(b.group||'—')+'</td>'
+      +'<td><span class="room-chip">'+(b.room||'—')+'</span></td>'
+      +'<td>'+badge+'</td>'
+      +'</tr>';
+  }).join('');
+}
+</script>
+</body>
+</html>
