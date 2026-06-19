@@ -77,9 +77,6 @@ function clearForm() {
 var allBookings = [];
 
 function loadBookings() {
-  var btn = document.querySelector('.btn-refresh');
-  btn.textContent = '⏳'; btn.disabled = true;
-
   fetch(SCRIPT_URL + '?action=get')
   .then(function(r){ return r.json(); })
   .then(function(data){
@@ -88,11 +85,8 @@ function loadBookings() {
   })
   .catch(function(){
     document.getElementById('tbl-body').innerHTML =
-      '<tr><td colspan="6"><div class="empty-state"><div class="icon">🔒</div>' +
+      '<tr><td colspan="4"><div class="empty-state"><div class="icon">🔒</div>' +
       '<div>CORS blocked — ពិនិត្យ Apps Script "Who has access" = <strong>Anyone</strong></div></div></td></tr>';
-  })
-  .finally(function(){
-    btn.textContent = '🔄 Refresh'; btn.disabled = false;
   });
 }
 
@@ -109,7 +103,7 @@ function applyFilter() {
 function renderTable(rows) {
   var tb = document.getElementById('tbl-body');
   if (!rows||rows.length===0) {
-    tb.innerHTML='<tr><td colspan="6"><div class="empty-state"><div class="icon">📭</div><div>មិនទាន់មានការស្នើរសុំ</div></div></td></tr>';
+    tb.innerHTML='<tr><td colspan="4"><div class="empty-state"><div class="icon">📭</div><div>មិនទាន់មានការស្នើរសុំ</div></div></td></tr>';
     return;
   }
   tb.innerHTML = rows.map(function(b){
@@ -121,8 +115,6 @@ function renderTable(rows) {
       +'<td>'+dateStr+'</td>'
       +'<td>'+(b.time||'—')+'</td>'
       +'<td><span class="room-chip">'+(b.room||'—')+'</span></td>'
-      +'<td>'+(b.phone||'—')+'</td>'
-      +'<td>'+(b.email||'—')+'</td>'
       +'<td>'+badge+'</td>'
       +'</tr>';
   }).join('');
