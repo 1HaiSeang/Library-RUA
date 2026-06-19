@@ -67,7 +67,7 @@
 <header>
   <div class="logo">🏛️</div>
   <div>
-    <h1>ប្រព័ន្ធកក់បន្ទប់ពិភាក្សា</h1>
+    <h1>ប្រព័ន្ធស្នើរសុំបន្ទប់ពិភាក្សា</h1>
     <p>បណ្ណាល័យ — ម៉ោង 08:00–17:00 (សម្រាក 12:00–13:00)</p>
   </div>
 </header>
@@ -75,7 +75,7 @@
 <main>
   <!-- Booking Form -->
   <div class="card">
-    <div class="card-header">📋 កក់បន្ទប់ថ្មី</div>
+    <div class="card-header">📋 ស្នើរបន្ទប់ថ្មី</div>
     <div class="card-body">
       <div class="field">
         <label>ថ្ងៃខែឆ្នាំ <span class="req">*</span></label>
@@ -118,7 +118,7 @@
         <label>សមាជិក</label>
         <input type="text" id="f-members" placeholder="ឧ. សុខ, ដារា, នីតា">
       </div>
-      <button class="btn btn-primary" id="btn-submit" onclick="submitBooking()">✅ កក់បន្ទប់</button>
+      <button class="btn btn-primary" id="btn-submit" onclick="submitBooking()">✅ ស្នើរបន្ទប់</button>
       <div class="alert alert-error"   id="alert-err"></div>
       <div class="alert alert-success" id="alert-ok"></div>
       <div class="alert alert-warning" id="alert-warn"></div>
@@ -128,8 +128,8 @@
   <!-- Booking Table -->
   <div class="card">
     <div class="table-header">
-      <h2>📅 តារាងការកក់ទាំងអស់</h2>
-      <span class="badge-count" id="count-badge">0 ការកក់</span>
+      <h2>📅 តារាងស្នើរសុំបន្ឬប់ទាំងអស់</h2>
+      <span class="badge-count" id="count-badge">0 ការស្នើរសុំ</span>
     </div>
     <div class="filter-bar">
       <select id="filter-day" onchange="applyFilter()">
@@ -141,11 +141,10 @@
         <option value="">បន្ទប់ទាំងអស់</option>
         <option>R-01 (6 នាក់)</option>
         <option>R-02 (8 នាក់)</option>
-        <option>R-03 (10 នាក់)</option>
       </select>
       <select id="filter-status" onchange="applyFilter()">
         <option value="">ស្ថានភាពទាំងអស់</option>
-        <option>កក់ហើយ</option><option>ទំនេរ</option>
+        <option>ស្នើរសុំបន្ទប់ហើយ</option><option>ទំនេរ</option>
       </select>
       <button class="btn-refresh" onclick="loadBookings()">🔄 Refresh</button>
     </div>
@@ -273,18 +272,18 @@ function applyFilter() {
     return (!fd||b.day===fd)&&(!fr||b.room===fr)&&(!fs||b.status===fs);
   });
   renderTable(filtered);
-  document.getElementById('count-badge').textContent = filtered.length+' ការកក់';
+  document.getElementById('count-badge').textContent = filtered.length+' ការស្នើរ';
 }
 
 function renderTable(rows) {
   var tb = document.getElementById('tbl-body');
   if (!rows||rows.length===0) {
-    tb.innerHTML='<tr><td colspan="7"><div class="empty-state"><div class="icon">📭</div><div>មិនទាន់មានការកក់</div></div></td></tr>';
+    tb.innerHTML='<tr><td colspan="7"><div class="empty-state"><div class="icon">📭</div><div>មិនទាន់មានការស្នើរ</div></div></td></tr>';
     return;
   }
   tb.innerHTML = rows.map(function(b){
-    var badge = b.status==='កក់ហើយ'
-      ? '<span class="badge badge-booked">✅ កក់ហើយ</span>'
+    var badge = b.status==='ស្នើរហើយ'
+      ? '<span class="badge badge-booked">✅ ស្នើរហើយ</span>'
       : '<span class="badge badge-free">🟡 ទំនេរ</span>';
     var dateStr = b.date ? (b.date.toString().includes('T') ? new Date(b.date).toLocaleDateString('km-KH') : b.date) : '—';
     return '<tr>'
