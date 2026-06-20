@@ -1,5 +1,5 @@
 var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzOB6Q80eh7KABULQkiF4TGXWD-tvDrTvNHUpwIGBp0Jd0R6yxKSoYx-PS1yWmcgbPE/exec';
-
+ 
 window.addEventListener('DOMContentLoaded', function() {
   document.getElementById('f-date').addEventListener('change', function() {
     var days = ['អាទិត្យ','ចន្ទ','អង្គារ','ពុធ','ព្រហស្បតិ៍','សុក្រ','សៅរ៍'];
@@ -8,7 +8,7 @@ window.addEventListener('DOMContentLoaded', function() {
   });
   loadBookings();
 });
-
+ 
 function showAlert(type, msg) {
   ['err','ok','warn'].forEach(function(t) {
     var el = document.getElementById('alert-'+t);
@@ -18,7 +18,7 @@ function showAlert(type, msg) {
   el.innerHTML = msg; el.classList.add('show');
   setTimeout(function(){ el.classList.remove('show'); }, 6000);
 }
-
+ 
 function submitBooking() {
   var dateVal    = document.getElementById('f-date').value;
   var dayVal     = document.getElementById('f-day').value;
@@ -29,26 +29,26 @@ function submitBooking() {
   var phoneVal   = document.getElementById('f-phone').value.trim();
   var emailVal   = document.getElementById('f-email').value.trim();
   var membersVal = document.getElementById('f-members').value.trim();
-
+ 
   if (!dateVal || !dayVal || !timeVal || !roomVal || !groupVal || !phoneVal) {
     showAlert('err','⚠️ សូមបំពេញព័ត៌មានចាំបាច់: ថ្ងៃខែ, ម៉ោង, បន្ទប់, ឈ្មោះក្រុម, លេខទូរសព្ទ');
     return;
   }
-
+ 
   var d = new Date(dateVal);
   var formatted = ('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'/'+d.getFullYear();
-
+ 
   var btn = document.getElementById('btn-submit');
   btn.disabled = true;
   btn.innerHTML = '<span class="loader"></span>កំពុងស្នើរសុំ...';
-
+ 
   var payload = {
     date: formatted, day: dayVal, time: timeVal,
     topic: topicVal||'—', group: groupVal,
     members: membersVal||'—', room: roomVal,
     phone: phoneVal, email: emailVal||'—'
   };
-
+ 
   fetch(SCRIPT_URL, {
     method: 'POST', mode: 'no-cors',
     headers: {'Content-Type':'application/json'},
@@ -67,19 +67,19 @@ function submitBooking() {
     btn.innerHTML = '✅ ស្នើរសុំបន្ទប់';
   });
 }
-
+ 
 function clearForm() {
   ['f-date','f-day','f-time','f-room','f-topic','f-group','f-phone','f-email','f-members'].forEach(function(id){
     document.getElementById(id).value = '';
   });
 }
-
+ 
 var allBookings = [];
-
+ 
 function loadBookings() {
   var btn = document.querySelector('.btn-refresh');
   btn.textContent = '⏳'; btn.disabled = true;
-
+ 
   fetch(SCRIPT_URL + '?action=get')
   .then(function(r){ return r.json(); })
   .then(function(data){
@@ -95,7 +95,7 @@ function loadBookings() {
     btn.textContent = '🔄 Refresh'; btn.disabled = false;
   });
 }
-
+ 
 function applyFilter() {
   var fr = document.getElementById('filter-room').value;
   var fs = document.getElementById('filter-status').value;
@@ -105,7 +105,7 @@ function applyFilter() {
   renderTable(filtered);
   document.getElementById('count-badge').textContent = filtered.length+' ការស្នើរសុំ';
 }
-
+ 
 function renderTable(rows) {
   var tb = document.getElementById('tbl-body');
   if (!rows||rows.length===0) {
