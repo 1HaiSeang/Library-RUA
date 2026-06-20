@@ -77,6 +77,9 @@ function clearForm() {
 var allBookings = [];
 
 function loadBookings() {
+  var btn = document.querySelector('.btn-refresh');
+  btn.textContent = '⏳'; btn.disabled = true;
+
   fetch(SCRIPT_URL + '?action=get')
   .then(function(r){ return r.json(); })
   .then(function(data){
@@ -87,6 +90,9 @@ function loadBookings() {
     document.getElementById('tbl-body').innerHTML =
       '<tr><td colspan="4"><div class="empty-state"><div class="icon">🔒</div>' +
       '<div>CORS blocked — ពិនិត្យ Apps Script "Who has access" = <strong>Anyone</strong></div></div></td></tr>';
+  })
+  .finally(function(){
+    btn.textContent = '🔄 Refresh'; btn.disabled = false;
   });
 }
 
