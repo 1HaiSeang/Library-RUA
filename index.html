@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ប្រព័ន្ធស្នើរសុំបន្ទប់ – បណ្ណាល័យ</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="logo">🏛️</div>
+  <div>
+    <h1>ប្រព័ន្ធស្នើរសុំបន្ទប់ពិភាក្សា</h1>
+    <p>បណ្ណាល័យ — ម៉ោង 08:00–17:00 (សម្រាក 12:00–13:00)</p>
+  </div>
+</header>
+
+<main>
+  <!-- Booking Form -->
+  <div class="card">
+    <div class="card-header">📋 ស្នើរសុំបន្ទប់ថ្មី</div>
+    <div class="card-body">
+      <div class="field">
+        <label>ថ្ងៃខែឆ្នាំ <span class="req">*</span></label>
+        <input type="date" id="f-date">
+      </div>
+      <input type="hidden" id="f-day">
+      <div class="field">
+        <label>ម៉ោង <span class="req">*</span></label>
+        <select id="f-time">
+          <option value="">— ជ្រើសម៉ោង —</option>
+          <option>08:00–10:00</option><option>10:00–12:00</option>
+          <option>13:00–15:00</option><option>15:00–17:00</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>បន្ទប់ <span class="req">*</span></label>
+        <select id="f-room">
+          <option value="">— ជ្រើសបន្ទប់ —</option>
+          <option>R-01 (6 នាក់)</option>
+          <option>R-02 (8 នាក់)</option>
+          <option>R-03 (10 នាក់)</option>
+        </select>
+      </div>
+      <input type="hidden" id="f-topic">
+      <input type="hidden" id="f-group">
+      <div class="field">
+        <label>លេខទូរសព្ទ <span class="req">*</span></label>
+        <input type="tel" id="f-phone" placeholder="ឧ. 012 345 678">
+      </div>
+      <div class="field">
+        <label>អុីមែល</label>
+        <input type="email" id="f-email" placeholder="ឧ. example@gmail.com">
+      </div>
+      <div class="field">
+        <label>សមាជិក</label>
+        <input type="text" id="f-members" placeholder="ឧ. សុខ, ដារា, នីតា">
+      </div>
+      <button class="btn btn-primary" id="btn-submit" onclick="submitBooking()">✅ ស្នើរសុំបន្ទប់</button>
+      <div class="alert alert-error"   id="alert-err"></div>
+      <div class="alert alert-success" id="alert-ok"></div>
+      <div class="alert alert-warning" id="alert-warn"></div>
+    </div>
+  </div>
+
+  <!-- Booking Table -->
+  <div class="card">
+    <div class="table-header">
+      <h2>📅 តារាងស្នើរសុំទាំងអស់</h2>
+      <span class="badge-count" id="count-badge">0 ការស្នើរសុំ</span>
+    </div>
+    <div class="filter-bar">
+      <select id="filter-room" onchange="applyFilter()">
+        <option value="">បន្ទប់ទាំងអស់</option>
+        <option>R-01 (6 នាក់)</option>
+        <option>R-02 (8 នាក់)</option>
+        <option>R-03 (10 នាក់)</option>
+      </select>
+      <select id="filter-status" onchange="applyFilter()">
+        <option value="">ស្ថានភាពទាំងអស់</option>
+        <option>Pending</option>
+        <option>Approved</option>
+        <option>Rejected</option>
+      </select>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ថ្ងៃខែ</th><th>ម៉ោង</th><th>បន្ទប់</th><th>ស្ថានភាព</th>
+          </tr>
+        </thead>
+        <tbody id="tbl-body">
+          <tr><td colspan="4"><div class="empty-state"><div class="icon">⏳</div><div>កំពុង load...</div></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
