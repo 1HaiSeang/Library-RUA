@@ -1,4 +1,4 @@
-var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxLbyJQyCs3u7SS8wwfA4s8QjNaWTNDg-tQ6fmNvsQH2zEMxWgWwvfIOnlY_kC4QECgMg/exec';
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxHui_TGSFcvADbwsZsq4ubJ1TAVRQvhdAcd3IXEdvggR_OTHlcKXRL4EqyGfERLVb2/exec';
 
 window.addEventListener('DOMContentLoaded', function() {
   document.getElementById('f-date').addEventListener('change', function() {
