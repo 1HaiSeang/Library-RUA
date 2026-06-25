@@ -13,7 +13,7 @@ var LIBRARY_NAME = 'បណ្ណាល័យ';
 // ============================================================
 // TELEGRAM CONFIG — add these near the top
 // ============================================================
-var TELEGRAM_TOKEN   = '8720218991:AAGcmSb6TVCl94qhFYBj_Tr7Mj822MmEv40';        // from BotFather
+var TELEGRAM_TOKEN   = 'Telegram_Bot_API_Token';        // from BotFather
 var TELEGRAM_PRIVATE_ID = '1795526925';    // your chat ID
 var TELEGRAM_CHAT_ID    = '-1003887735287';
 var TELEGRAM_API     = 'https://api.telegram.org/bot' + TELEGRAM_TOKEN;
